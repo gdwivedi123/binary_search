@@ -17,10 +17,14 @@ public:
     }
     int search(vector<int>& nums, int target) {
         //Find the pivot.
-        bool flag = false;
+        
         int l = 0, n = nums.size(),  pivot, r = n - 1, mid;
-        if(l > r)
+        if(n == 0)
             return -1;
+        if(n == 1)
+            return nums[0] == target ? 0 : -1;
+        /*
+        1. Finding the largest element then dividing the array into two halves.
         while( l < r)
         {
             mid = l + ( r - l) / 2;
@@ -34,18 +38,28 @@ public:
                         pivot = mid;
                         break;
                     }
-        }
+        }*/
+        //2. Find the minimum  element then divide the array into two halves.
+        while(l < r)
+        {
+            mid = l + ( r - l) / 2;
+            if(nums[mid] < nums[r])
+                r = mid;
+            else
+                l = mid + 1;
+        }   
+        pivot = l;
+        
+        /*
+        when using 1.
         if(!flag)
-            pivot = l;
+            pivot = l;*/
         if(nums[pivot] == target)
             return pivot;
-        else if(nums[0] > target)
-        {
-            return search_element(nums, pivot + 1, n - 1, target);
-        }
-        else
-        {
+        if(target > nums[n - 1])
             return search_element(nums, 0, pivot - 1, target);
-        }
+        else
+            return search_element(nums, pivot + 1, n - 1, target);
+            
     }
 };
