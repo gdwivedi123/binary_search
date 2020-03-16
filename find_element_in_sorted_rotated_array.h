@@ -1,5 +1,20 @@
 class Solution {
 public:
+    int search_element(vector<int>& nums, int l, int r, int target)
+    {
+        int mid;
+        while(l < r)
+            {
+                mid = l + ( r - l) / 2;
+                if(nums[mid] > target)
+                    r = mid;
+                else if(nums[mid] < target)
+                    l = mid + 1;
+                else
+                    return mid;
+            }
+            return (l == r && nums[l] == target) ? l : -1;
+    }
     int search(vector<int>& nums, int target) {
         //Find the pivot.
         bool flag = false;
@@ -26,37 +41,11 @@ public:
             return pivot;
         else if(nums[0] > target)
         {
-            l = pivot + 1; 
-            r = n - 1;
-            while(l < r)
-            {
-                mid = l + ( r - l) / 2;
-                if(nums[mid] > target)
-                    r = mid;
-                else if(nums[mid] < target)
-                    l = mid + 1;
-                else
-                    return mid;
-            }
-            return (l == r && nums[l] == target) ? l : -1;
+            return search_element(nums, pivot + 1, n - 1, target);
         }
         else
         {
-            l = 0; 
-            r = pivot - 1;
-            while(l < r)
-            {
-                mid = l + ( r - l) / 2;
-                if(nums[mid] > target)
-                    r = mid;
-                else if(nums[mid] < target)
-                    l = mid + 1;
-                else 
-                    return mid;
-            }
-            return (l == r && nums[l] == target) ? l : -1;
+            return search_element(nums, 0, pivot - 1, target);
         }
-        
-        
     }
 };
